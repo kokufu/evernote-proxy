@@ -23,7 +23,12 @@ var config = function() {
 
   // override from environment variables if exists.
   for (var i in result) {
-    result[i] = process.env[i.toUpperCase()] || result[i];
+    var env = process.env[i.toUpperCase()]
+    if (typeof result[i] === "boolean") {
+      result[i] = env ? env === "true" : result[i]
+    } else {
+      result[i] = env || result[i];
+    }
   }
 
   console.log("Configuration");
